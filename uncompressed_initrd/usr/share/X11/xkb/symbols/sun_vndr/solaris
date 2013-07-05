@@ -1,0 +1,213 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+partial default
+xkb_symbols "defaults_common" {
+
+ 
+ 
+ 
+ 
+ key <STOP> { [ L1, L1 ], [ SunStop ] };
+ key <AGAI> { [ L2, L2 ], [ SunAgain ] };
+ key <PROP> { [ L3, L3 ], [ SunProps ] };
+ key <UNDO> { [ L4, L4 ], [ SunUndo ] };
+ key <FRNT> { [ L5, L5 ], [ SunFront ] };
+ key <COPY> { [ L6, L6 ], [ SunCopy ] };
+ key <OPEN> { [ L7, L7 ], [ SunOpen ] };
+ key <PAST> { [ L8, L8 ], [ SunPaste ] };
+ key <FIND> { [ L9, L9 ], [ SunFind ] };
+ key <CUT> { [ L10, L10 ], [ SunCut ] };
+
+ 
+ 
+ 
+ key <PAUS> { [ R1, R1 ], [ Pause ] };
+ key <PRSC> { [ R2, R2 ], [ Print ] };
+ key <SCLK> { [ R3, R3 ], [ Scroll_Lock, Break ] };
+
+ key <KPEQ> { [ KP_Equal ], [ R4, KP_Equal ] };
+ key <KPDV> { [ KP_Divide ], [ R5, KP_Divide ] };
+ key <KPMU> { [ KP_Multiply ], [ R6, KP_Multiply ] };
+
+ key <KP7> { [ KP_Home, KP_7, R7 ], [ R7, KP_7, Home ] };
+ key <KP8> { [ KP_Up, KP_8, R8 ], [ R8, KP_8, Up ] };
+ key <KP9> { [ KP_Prior, KP_9, R9 ], [ R9, KP_9, Prior ] };
+
+ key <KP4> { [ KP_Left, KP_4, R10 ], [ R10, KP_4, Left ] };
+ key <KP5> { [ KP_Begin, KP_5, R11 ], [ R11, KP_5 ] };
+ key <KP6> { [ KP_Right, KP_6, R12 ], [ R12, KP_6, Right ] };
+
+ key <KP1> { [ KP_End, KP_1, R13 ], [ R13, KP_1, End ] };
+ key <KP2> { [ KP_Down, KP_2, R14 ], [ R14, KP_2, Down ] };
+ key <KP3> { [ KP_Next, KP_3, R15 ], [ R15, KP_3, Next ] };
+
+ 
+ 
+ key <FK11> { [ SunF36 ], [ F11 ] };
+ key <FK12> { [ SunF37 ], [ F12 ] };
+
+ 
+ 
+ key <HELP> { [ Help ] };
+ key <MUTE> { [ SunAudioMute, SunVideoDegauss ] };
+ key <VOL-> { [ SunAudioLowerVolume,SunVideoLowerBrightness ] };
+ key <VOL+> { [ SunAudioRaiseVolume,SunVideoRaiseBrightness ] };
+ key <POWR> { [ XF86Sleep, XF86Hibernate ] };
+
+
+
+
+
+};
+
+partial default
+xkb_symbols "defaults" {
+ include "sun_vndr/solaris(defaults_common)"
+
+
+
+ 
+
+
+
+
+
+};
+
+partial default
+xkb_symbols "defaults_type7jp" {
+ include "sun_vndr/solaris(defaults_common)"
+ 
+ modifier_map Shift { Shift_R, Shift_L };
+ modifier_map Mod1 { Alt_L , Alt_R};
+ modifier_map Mod2 { Num_Lock };
+ modifier_map Mod3 { Mode_switch };
+ modifier_map Mod4 { Meta_L, Meta_R };
+};
+
+
+
+partial
+xkb_symbols "keynames" {
+ key <FK11> { [ F11 ], [ SunF36 ] };
+ key <FK12> { [ F12 ], [ SunF37 ] };
+
+ key <STOP> { [ Cancel ], [ F11 ] };
+ key <AGAI> { [ Redo ], [ F12 ] };
+ key <PROP> { [ SunProps ], [ F13 ] };
+ key <UNDO> { [ Undo ], [ F14 ] };
+ key <FRNT> { [ SunFront ], [ F15 ] };
+ key <COPY> { [ SunCopy ], [ F16 ] };
+ key <OPEN> { [ SunOpen ], [ F17 ] };
+ key <PAST> { [ SunPaste ], [ F18 ] };
+ key <FIND> { [ Find ], [ F19 ] };
+ key <CUT> { [ SunCut ], [ F20 ] };
+
+ key <HELP> { [ Help ] };
+
+ key <PAUS> { [ Pause ] };
+ key <PRSC> { [ Print ] };
+ key <SCLK> { [ Scroll_Lock, Break ] };
+
+ key <KP7> { [ KP_Home, KP_7 ] };
+ key <KP8> { [ KP_Up, KP_8 ] };
+ key <KP9> { [ KP_Prior, KP_9 ] };
+
+ key <KP4> { [ KP_Left, KP_4 ] };
+ key <KP5> { [ KP_Begin, KP_5 ] };
+ key <KP6> { [ KP_Right, KP_6 ] };
+
+ key <KP1> { [ KP_End, KP_1 ] };
+ key <KP2> { [ KP_Down, KP_2 ] };
+ key <KP3> { [ KP_Next, KP_3 ] };
+
+ key <KPEN> { [ KP_Enter ] };
+ key <KPEQ> { [ KP_Equal ] };
+
+ key <MUTE> { [ SunAudioMute, SunVideoDegauss ] };
+ key <VOL-> { [ SunAudioLowerVolume, SunVideoLowerBrightness ] };
+ key <VOL+> { [ SunAudioRaiseVolume, SunVideoRaiseBrightness ] };
+ key <POWR> { [ SunPowerSwitch, SunPowerSwitchShift ] };
+
+ key <LALT> { [ Alt_L ] };
+ key <RALT> { [ Mode_switch ] };
+ key <ALGR> { [ Mode_switch ] };
+ key <LMTA> { [ Meta_L ] };
+ key <RMTA> { [ Meta_R ] };
+ key <COMP> { [ Multi_key ] };
+
+};
+
+
+partial
+xkb_symbols "xf86keynames" {
+ key <STOP> { [ XF86Stop ], [ F11 ] };
+ key <AGAI> { [ Redo ], [ F12 ] };
+ key <PROP> { [ SunProps ], [ F13 ] };
+ key <UNDO> { [ Undo ], [ F14 ] };
+ key <FRNT> { [ SunFront ], [ F15 ] };
+ key <COPY> { [ XF86Copy ], [ F16 ] };
+ key <OPEN> { [ XF86Open ], [ F17 ] };
+ key <PAST> { [ XF86Paste ], [ F18 ] };
+ key <FIND> { [ Find ], [ F19 ] };
+ key <CUT> { [ XF86Cut ], [ F20 ] };
+
+ key <MUTE> { [ XF86AudioMute, SunVideoDegauss ] };
+ key <VOL-> { [ XF86AudioLowerVolume,SunVideoLowerBrightness ] };
+ key <VOL+> { [ XF86AudioRaiseVolume,SunVideoRaiseBrightness ] };
+ key <POWR> { [ XF86Sleep, XF86PowerDown ] };
+};

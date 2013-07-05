@@ -1,0 +1,12 @@
+default xkb_compatibility "default" {
+ include "basic"
+ augment "mousekeys"
+ augment "accessx(basic)"
+ augment "misc"
+ augment "iso9995"
+ augment "level5"
+
+
+ augment "japan"
+ augment "caps(caps_lock)"
+};

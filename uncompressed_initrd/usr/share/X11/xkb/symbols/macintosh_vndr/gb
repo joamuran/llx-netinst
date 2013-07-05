@@ -1,0 +1,17 @@
+partial default alphanumeric_keys 
+xkb_symbols "basic" {
+
+ 
+ 
+
+ include "latin"
+
+ name[Group1]= "United Kingdom - Mac";
+
+ key <AE02> { [ 2, at, EuroSign ] };
+ key <AE03> { [ 3, sterling, numbersign ] };
+
+ 
+ 
+ include "level3(ralt_switch)"
+};

@@ -1,0 +1,78 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+partial
+xkb_symbols "type6" {
+ 
+ key <ALGR> { [ Henkan_Mode ] };
+ key <BKSL> { [ backslash, bar, brokenbar ] };
+
+};
+
+
+
+
+xkb_symbols "type4" {
+
+ key <BKSL> { [ backslash, bar, brokenbar ] };
+
+ key <COMP> { [ Henkan_Mode ] };
+
+};
+
+
+xkb_symbols "type5" {
+
+ 
+ key <ALGR> { [ Henkan_Mode ] };
+ key <BKSL> { [ backslash, bar, brokenbar ] };
+
+};

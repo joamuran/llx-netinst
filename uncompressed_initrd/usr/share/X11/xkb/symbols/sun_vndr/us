@@ -1,0 +1,400 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+xkb_symbols "sunbasic" {
+ include "srvr_ctrl(xfree86)"
+
+ 
+ 
+ 
+ include "inet(evdev)"
+
+ include "us(basic)"
+ include "srvr_ctrl(fkey2vt)"
+ include "pc(editing)"
+ include "keypad(x11)"
+
+ key <ESC> { [ Escape ] };
+
+ 
+ key <LSGT> { [ less, greater, bar, brokenbar ] };
+
+ 
+ key <BKSL> { [ backslash, bar ] };
+ key <SPCE> { [ space ] };
+
+ key <BKSP> { [ BackSpace ] };
+ key <TAB> { [ Tab, ISO_Left_Tab ] };
+ key <RTRN> { [ Return ] };
+
+ key <NMLK> { [ Num_Lock, Pointer_EnableKeys ] };
+
+ key <COMP> { [ Multi_key ] };
+ 
+
+ key <LFSH> { [ Shift_L ] };
+ key <LCTL> { [ Control_L ] };
+
+ key <RTSH> { [ Shift_R ] };
+ key <RCTL> { [ Control_R ] };
+
+
+ 
+ modifier_map Shift { Shift_L, Shift_R };
+ modifier_map Lock { Caps_Lock, ISO_Lock };
+ modifier_map Control{ Control_L, Control_R };
+ modifier_map Mod2 { Num_Lock };
+
+ 
+ key <LVL3> { [ ISO_Level3_Shift ] };
+ key <MDSW> { [ Mode_switch ] };
+ modifier_map Mod5 { <LVL3>, <MDSW> };
+
+ key <ALT> { [ NoSymbol, Alt_L ] };
+ key <LALT> { [ Alt_L, Alt_L ] };
+ key <LWIN> { [ Meta_L ] };
+ key <RWIN> { [ Meta_R ] };
+ modifier_map Mod1 { Alt_L };
+ modifier_map Mod4 { Meta_L, Meta_R };
+
+
+
+
+
+
+ include "sun_vndr/us(left_funkeys)"
+
+ include "capslock(capslock)"
+ 
+
+
+
+
+
+
+
+
+ key <KPDV> { [ KP_Divide ] };
+ key <KPMU> { [ KP_Multiply ] };
+ key <KPSU> { [ KP_Subtract ] };
+
+ key <KP7> { [ KP_Home, KP_7 ] };
+ key <KP8> { [ KP_Up, KP_8 ] };
+ key <KP9> { [ KP_Prior, KP_9 ] };
+ key <KPAD> { [ KP_Add ] };
+
+ key <KP4> { [ KP_Left, KP_4 ] };
+ key <KP5> { [ KP_Begin, KP_5 ] };
+ key <KP6> { [ KP_Right, KP_6 ] };
+
+ key <KP1> { [ KP_End, KP_1 ] };
+ key <KP2> { [ KP_Down, KP_2 ] };
+ key <KP3> { [ KP_Next, KP_3 ] };
+ key <KPEN> { [ KP_Enter ] };
+
+ key <KP0> { [ KP_Insert, KP_0 ] };
+ key <KPDL> { [ KP_Delete, KP_Decimal ] };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+};
+
+
+xkb_symbols "left_funkeys" {
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ key <STOP> { [ L1, L1, SunStop ] };
+ key <AGAI> { [ L2, L2, SunAgain ] };
+ key <PROP> { [ L3, L3, SunProps ] };
+ key <UNDO> { [ L4, L4, SunUndo ] };
+ key <FRNT> { [ L5, L5, SunFront ] };
+ key <COPY> { [ L6, L6, SunCopy ] };
+ key <OPEN> { [ L7, L7, SunOpen ] };
+ key <PAST> { [ L8, L8, SunPaste ] };
+ key <FIND> { [ L9, L9, SunFind ] };
+ key <CUT> { [ L10, L10, SunCut ] };
+};
+
+hidden
+xkb_symbols "volumekeys" {
+ 
+ key <MUTE> { [ NoSymbol, SunVideoDegauss ] };
+ key <VOL-> { [ NoSymbol, XF86MonBrightnessDown ] };
+ key <VOL+> { [ NoSymbol, XF86MonBrightnessUp ] };
+
+ 
+ 
+ 
+ 
+ 
+ 
+};
+
+
+
+xkb_symbols "type4basic" {
+ include "sun_vndr/us(sunbasic)"
+
+ 
+ key <AE04> { [ 4, dollar, EuroSign ] };
+ key <AE05> { [ 5, percent, EuroSign ] };
+ key <AD03> { [ e, E, EuroSign ] };
+
+ key <LNFD> { [ Linefeed ] };
+
+ 
+ key <PRSC> { [ R2, R2, Print ] };
+ key <SCLK> { [ R3, R3, Scroll_Lock, Break ] };
+ key <PAUS> { [ R1, R1, Pause ] };
+
+ 
+ key <KPEQ> { [ R4, KP_Equal, KP_Equal ] };
+
+};
+
+xkb_symbols "type4" {
+ include "sun_vndr/us(type4basic)"
+
+ key <BKSL> { [ backslash, bar, brokenbar ] };
+};
+
+
+xkb_symbols "type5basic" {
+ include "sun_vndr/us(sunbasic)"
+ include "sun_vndr/us(volumekeys)"
+
+ 
+ key <PRSC> { [ R2, R2, Print, SunSys_Req ] };
+ key <SCLK> { [ R3, R3, Scroll_Lock ] };
+ key <PAUS> { [ R1, R1, Pause, Break ] };
+ 
+};
+
+xkb_symbols "type5" {
+ include "sun_vndr/us(type5basic)"
+
+ 
+ key <AE04> { [ 4, dollar, EuroSign ] };
+ key <AE05> { [ 5, percent, EuroSign ] };
+ key <AD03> { [ e, E , EuroSign ] };
+ key <BKSL> { [ backslash, bar, brokenbar ] };
+};
+
+
+xkb_symbols "type5hobobasic" {
+ include "sun_vndr/us(type5basic)"
+};
+
+xkb_symbols "type5hobo" {
+ include "sun_vndr/us(type5hobobasic)"
+
+ 
+ key <AE04> { [ 4, dollar, EuroSign ] };
+ key <AE05> { [ 5, percent, EuroSign ] };
+ key <AD03> { [ e, E, EuroSign ] };
+ key <BKSL> { [ backslash, bar, brokenbar ] };
+
+ 
+
+ key <AE07> { [ 7, ampersand, NoSymbol, NoSymbol, KP_7 ] };
+ key <AE08> { [ 8, asterisk, NoSymbol, NoSymbol, KP_8 ] };
+ key <AE09> { [ 9, parenleft, NoSymbol, NoSymbol, KP_9 ] };
+ key <AE10> { [ 0, parenright, NoSymbol, NoSymbol, KP_Multiply] };
+
+ key <AD07> { [ u, U, NoSymbol, NoSymbol, KP_4 ] };
+ key <AD08> { [ i, I, NoSymbol, NoSymbol, KP_5 ] };
+ key <AD09> { [ o, O, NoSymbol, NoSymbol, KP_6 ] };
+ key <AD10> { [ p, P, NoSymbol, NoSymbol, KP_Subtract] };
+
+ key <AC07> { [ j, J, NoSymbol, NoSymbol, KP_1 ] };
+ key <AC08> { [ k, K, NoSymbol, NoSymbol, KP_2 ] };
+ key <AC09> { [ l, L, NoSymbol, NoSymbol, KP_3 ] };
+ key <AC10> { [ semicolon, colon, NoSymbol, NoSymbol, KP_Add ] };
+
+ key <RTRN> { [ Return, NoSymbol, NoSymbol, KP_Enter ] };
+
+ key <AB07> { [ m, M, NoSymbol, NoSymbol, KP_0 ] };
+
+ key <AB09> { [ period, greater, NoSymbol, NoSymbol, KP_Decimal] };
+ key <AB10> { [ slash, question, NoSymbol, NoSymbol, KP_Divide ] };
+};
+
+
+xkb_symbols "type6" {
+ include "sun_vndr/us(sunbasic)"
+ include "sun_vndr/us(volumekeys)"
+ include "eurosign(4)"
+ include "level3(ralt_switch)"
+
+ key <SYRQ> { [ SunSys_Req ]};
+};
+
+
+
+xkb_symbols "pc101" {
+ include "us(pc101)"
+ key <RALT> { [ Mode_switch, Meta_R ] };
+};
+
+xkb_symbols "pc102" {
+ include "us(pc102)"
+ key <RALT> { [ Mode_switch, Meta_R ] };
+};
+
+xkb_symbols "pc104" {
+ include "us(pc104)"
+};
+
+xkb_symbols "pc101currency" {
+
+ key <AE04> { [ 4, dollar ], [ EuroSign ] };
+ key <AE05> { [ 5, percent ], [ EuroSign ] };
+ key <AD03> { [ e, E ], [ EuroSign ] };
+ key <BKSL> { [ backslash, bar ], [ brokenbar ]};
+};
+
+xkb_symbols "US101A_Sun" {
+
+ key <AE04> { [ 4, dollar ], [ EuroSign ] };
+ key <AE05> { [ 5, percent ], [ EuroSign ] };
+ key <AD03> { [ e, E ], [ EuroSign ] };
+ key <BKSL> { [ backslash, bar ], [ brokenbar ]};
+
+ 
+ key <PRSC> { [ L5, L5 ], [ Print, SunSys_Req ]};
+ key <SCLK> { [ L7, L7 ], [ Scroll_Lock ]};
+ key <PAUS> { [ L1, L1 ], [ Pause, Break ]};
+ key <INS> { [ L8, L8 ], [ Insert ]};
+ key <HOME> { [ L6, L6 ], [ Home ]};
+ key <PGUP> { [ L3, L3 ], [ Prior ]};
+
+
+ key <DELE> { [ L10, L10 ], [ Delete ]};
+ key <END> { [ L9, L9 ], [ End ]};
+ key <PGDN> { [ L4, L4 ], [ Next ]};
+
+ key <UP> { [ Up ] };
+ key <LEFT> { [ Left ] };
+ key <DOWN> { [ Down ] };
+ key <RGHT> { [ Right ] };
+
+ key <KPDV> { [ R5, R5 ], [ KP_Divide ] };
+ key <KPMU> { [ R6, R6 ], [ KP_Multiply ] };
+
+ key <KP7> { [ R7, KP_7 ], [ KP_7, Home ] };
+ key <KP8> { [ KP_Up, KP_8 ], [ KP_8 ] };
+ key <KP9> { [ R9, KP_9 ], [ KP_9, Prior ] };
+ key <KPAD> { [ KP_Add ] };
+
+ key <KP4> { [ KP_Left, KP_4 ], [ KP_4 ] };
+ key <KP5> { [ R11, KP_5 ], [ KP_5 ] };
+ key <KP6> { [ KP_Right, KP_6 ], [ KP_6 ] };
+
+ key <KP1> { [ R13, KP_1 ], [ KP_1, End ] };
+ key <KP2> { [ KP_Down, KP_2 ], [ KP_2 ] };
+ key <KP3> { [ R15, KP_3 ], [ KP_3, Next ] };
+ key <KPEN> { [ KP_Enter ] };
+
+ key <LALT> { [ Meta_L ] };
+ key <RALT> { [ Alt_L ] };
+ key <RCTL> { [ Multi_key ] };
+};

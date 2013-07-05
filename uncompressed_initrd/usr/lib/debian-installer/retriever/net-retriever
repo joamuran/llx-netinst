@@ -1,0 +1,261 @@
+#!/bin/sh
+
+. /usr/share/debconf/confmodule
+
+log() {
+	logger -t net-retriever "$@"
+}
+error() {
+	log "error: $@"
+	exit 1
+}
+
+db_get mirror/protocol
+protocol="$RET"
+db_get mirror/$protocol/hostname
+hostname="$RET"
+db_get mirror/$protocol/directory
+directory="$RET"
+if db_get apt-setup/security_host; then
+	sechostname="$RET"
+	if db_get apt-setup/security_path; then
+		secdirectory="$RET"
+	else
+		secdirectory=/ubuntu
+	fi
+elif [ "$hostname" = ports.ubuntu.com ]; then
+	# Awful Ubuntu-specific hack. *-security suites for ports
+	# architectures aren't available on security.ubuntu.com, only on
+	# ports.ubuntu.com.
+	sechostname="$hostname"
+	secdirectory="$directory"
+else
+	# TODO: hardcoding, since apt-setup might not be installed yet
+	sechostname=security.ubuntu.com
+	secdirectory=/ubuntu
+fi
+
+keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+fetch() {
+	fetch-url -c "${protocol}://$1$2/$3" "$4"
+}
+
+checkmatch() {
+	release="$1"
+	packages="$2"
+	pkgmd5="$3"
+	pkgsize="$4"
+
+	set -e
+	sed -n '/^MD5Sum:$/ b LOOP; b; : PRINT; /:$/q; p; : LOOP; n; b PRINT' \
+	       "$release" | (
+		while read md5 size file; do
+			if [ "$file" = "$packages" ]; then
+				if [ "$md5" != "$pkgmd5" ]; then
+					error "MD5 mismatch for $packages ($md5 != $pkgmd5)."
+				fi
+				if [ "$size" != "$pkgsize" ]; then
+					error "Size mismatch for $packages ($size != $pkgsize)."
+				fi
+				return 0
+			fi
+		done
+		error "$packages not found in $release."
+	)
+	set +e
+}
+
+read_gpg_status() {
+	while read prefix keyword rest; do
+		[ "$prefix" = '[GNUPG:]' ] || continue
+		if [ "$keyword" = VALIDSIG ]; then
+			exit 0
+		fi
+	done
+	exit 1
+}
+
+# Nasty hack to remove duplicates in Packages file.
+deduplicate () {
+	packages="$1"
+	outdir="/tmp/net-retriever-$$-deduplicate"
+
+	mkdir -p "$outdir"
+
+	while [ -s "$packages" ]; do
+		entry="$(sed '/^$/q' "$packages")"
+		package="$(echo "$entry" | sed -n 's/Package:[[:space:]][[:space:]]*//pI' | head -n 1)"
+		case $package in
+		    ''|*/*)
+			continue
+			;;
+		    *)
+			if [ -f "$outdir/$package" ]; then
+				newver="$(echo "$entry" | sed -n 's/Version:[[:space:]][[:space:]]*//pI' | head -n 1)"
+				[ "$newver" ] || continue
+				oldver="$(sed -n 's/Version:[[:space:]][[:space:]]*//pI' "$outdir/$package" | head -n 1)"
+				if /usr/lib/net-retriever/vergt "$newver" "$oldver"; then
+					echo "$entry" > "$outdir/$package"
+					echo >> "$outdir/$package"
+				fi
+			else
+				echo "$entry" > "$outdir/$package"
+				echo >> "$outdir/$package"
+			fi
+			;;
+		esac
+		sed -n '/^$/,$p' "$packages" | tail -n +2 > "$packages.new"
+		mv "$packages.new" "$packages"
+	done
+
+	cat "$outdir"/* > "$packages.new"
+	mv "$packages.new" "$packages"
+	rm -rf "$outdir"
+}
+
+cmd="$1"
+shift
+
+case "$cmd" in
+    retrieve)
+	fetch "$hostname" "$directory" "$@" || \
+		fetch "$sechostname" "$secdirectory" "$@"
+	exit $?
+	;;
+
+    packages)
+	rm -f "$1"
+	touch "$1"
+
+	# Setting codename to a suite is not very nice, but can do no harm
+	if ! db_get mirror/udeb/suite || [ -z "$RET" ]; then
+		if [ -f /etc/udebs-source ]; then
+			RET=$(cat /etc/udebs-source)
+		else
+			db_get mirror/codename
+		fi
+	fi
+	codename="$RET"
+
+	# TODO: Ubuntu-specific hack to fetch -updates and
+	# -security; is there any way to make this more generic?
+	codenames="$codename $codename-updates $codename-security"
+	if db_get apt-setup/proposed && [ "$RET" = true ]; then
+		codenames="$codenames $codename-proposed"
+	fi
+	for codename_extra in $codenames; do
+		if [ "$codename_extra" = "$codename-security" ]; then
+			thishost="$sechostname"
+			thisdir="$secdirectory"
+		else
+			thishost="$hostname"
+			thisdir="$directory"
+		fi
+		if $0 packages_one "$thishost" "$thisdir" "$1" "$codename_extra"; then
+			:
+		else
+			ret=$?
+			if [ "$codename_extra" = "$codename" ]; then
+				deduplicate "$1"
+				exit $ret
+			else
+				# ignore errors from secondary suites
+				continue
+			fi
+		fi
+	done
+	deduplicate "$1"
+	exit 0
+	;;
+
+    packages_one)
+	codename="$4"
+	Release="/tmp/net-retriever-$$-Release"
+	fetch "$1" "$2" "dists/$codename/Release" "$Release" || exit $?
+	# If gpgv and a keyring are installed, authentication is
+	# mandatory by default.
+	if type gpgv >/dev/null && [ -f "$keyring" ]; then
+		if db_get debian-installer/allow_unauthenticated && [ "$RET" = true ]; then
+			log "Not verifying Release signature: unauthenticated mode enabled"
+		else
+			if ! fetch "$1" "$2" "dists/$codename/Release.gpg" "$Release.gpg"; then
+				error "dists/$codename/Release is unsigned."
+			fi
+			if ! log-output -t net-retriever --pass-stdout \
+			     gpgv --status-fd 1 --keyring "$keyring" \
+			     --ignore-time-conflict \
+			     "$Release.gpg" "$Release" | read_gpg_status; then
+				error "Bad signature on $Release."
+			fi
+		fi
+	else
+		log "Not verifying Release signature: gpgv not available"
+	fi
+
+	ARCH=`udpkg --print-architecture`
+	allcomponents="`grep ^Components: $Release | cut -d' ' -f2-`"
+	ret=1
+	if [ -z "$allcomponents" ]; then
+		error "No components listed in $Release."
+	fi
+	db_get mirror/udeb/components
+	components="$(echo "$RET" | sed 's/,/ /g; s/  */ /g')"
+	newcomponents=
+	for comp in $components; do
+		case " $allcomponents " in
+		    *" $comp "*)
+			newcomponents="${newcomponents:+$newcomponents }$comp"
+			;;
+		esac
+	done
+	components="$newcomponents"
+	for comp in $components; do
+		for ext in '.gz' ''; do
+			pkgfile="$comp/debian-installer/binary-$ARCH/Packages$ext"
+			line=`grep $pkgfile\$ $Release 2>/dev/null`
+			if [ $? != 0 ]; then
+				continue
+			fi
+			Packages="/tmp/net-retriever-$$-Packages"
+			rm -f "$Packages"
+			fetch "$1" "$2" "dists/$codename/$pkgfile" "$Packages" || continue
+			checkmatch "$Release" "$pkgfile" \
+				"$(md5sum "$Packages" | cut -d' ' -f1)" \
+				"$(wc -c < "$Packages" | tr -d ' ')"
+			if [ "$ext" = '' ]; then
+				cat "$Packages" >> "$3"
+			elif [ "$ext" = .gz ]; then
+				zcat "$Packages" >> "$3"
+			fi
+			ret=0
+			break
+		done
+	done
+	exit $ret
+	;;
+
+    error)
+	T="retriever/net/error"
+	db_set "$T" "Retry"
+	db_input critical "$T" || true
+
+	if ! db_go; then
+		exit 2
+	fi
+	db_get "$T"
+	if [ "$RET" = "Retry" ]; then
+		exit 0
+	elif [ "$RET" = "Change mirror" ]; then
+		choose-mirror || true
+		exit 0
+	elif [ "$RET" = Cancel ]; then
+		exit 2
+	fi
+	;;
+
+    *)
+	# unknown or missing command
+	exit 1
+	;;
+esac

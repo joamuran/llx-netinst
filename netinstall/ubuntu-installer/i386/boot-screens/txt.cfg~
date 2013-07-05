@@ -1,0 +1,13 @@
+default install
+label install
+	menu label ^Install
+	menu default
+	kernel ubuntu-installer/i386/linux
+	append video=vesa:ywrap,mtrr vga=788 initrd=ubuntu-installer/i386/initrd.gz -- quiet url=http://10.2.1.254/preseed/lliurex-cdd-edu-class-gclient debian-installer/locale=es_ES debian-installer/ignore-release-gpg 
+label cli
+	menu label ^Command-line install
+	kernel ubuntu-installer/i386/linux
+	append tasks=standard pkgsel/language-pack-patterns= pkgsel/install-language-support=false video=vesa:ywrap,mtrr vga=788 initrd=ubuntu-installer/i386/initrd.gz -- quiet 
+
+
+/usr/share/live/build/preseed/$metapackage

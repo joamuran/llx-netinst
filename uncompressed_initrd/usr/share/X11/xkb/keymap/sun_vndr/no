@@ -1,0 +1,59 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+xkb_keymap "type4_no" {
+ xkb_keycodes { include "sun(type4_euro)" };
+ xkb_types { include "default" };
+ xkb_compatibility { include "default" };
+ xkb_symbols { 
+ include "sun_vndr/us(sun4)+iso9995-3(basic)+no"
+ };
+ xkb_geometry { include "sun(type4)" };
+};
+xkb_keymap "type4_no_openlook" {
+ xkb_keycodes { include "sun(type4_euro)" };
+ xkb_types { include "default" };
+ xkb_compatibility { include "default" };
+ xkb_symbols { 
+ include "sun_vndr/us(sun4ol)+iso9995-3(basic)+no"
+ };
+ xkb_geometry { include "sun(type4)" };
+};
+default xkb_keymap "type5_no" {
+ xkb_keycodes { include "sun(type5_euro)" };
+ xkb_types { include "default" };
+ xkb_compatibility { include "default" };
+ xkb_symbols { 
+ include "sun_vndr/us(sun5)+iso9995-3(basic)+no"
+ };
+ xkb_geometry { include "sun(type5euro)" };
+};
+xkb_keymap "type5_no_openlook" {
+ xkb_keycodes { include "sun(type5_euro)" };
+ xkb_types { include "default" };
+ xkb_compatibility { include "default" };
+ xkb_symbols { include "sun_vndr/us(sun5ol)+iso9995-3+no" };
+ xkb_geometry { include "sun(type5euro)" };
+};

@@ -1,0 +1,9 @@
+
+
+
+default partial xkb_compatibility "norepeat" {
+ interpret Return {
+ action= NoAction();
+ repeat= False;
+ };
+};

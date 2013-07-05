@@ -1,0 +1,97 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+partial
+xkb_symbols "type6" {
+
+ 
+ key <ALGR> { [ Hangul ] };
+ key <COMP> { [ Hangul_Hanja ] };
+ key <KANA> { [ Hangul ] };
+ key <EISU> { [ Hangul_Hanja ] };
+ key <BKSL> { [ backslash, bar, brokenbar ] };
+
+ include "level3(ralt_switch)"
+
+};
+
+
+
+xkb_symbols "type4" {
+
+ key <BKSL> { [ backslash, bar, brokenbar ] };
+
+ key <LNFD> { [ Hangul ] };
+ key <RALT> { [ Linefeed ] };
+ key <COMP> { [ Hangul_Hanja ] };
+
+ include "level3(ralt_switch)"
+
+};
+
+
+xkb_symbols "type5" {
+
+ 
+ key <ALGR> { [ Hangul ] };
+ key <COMP> { [ Hangul_Hanja ] };
+ key <BKSL> { [ backslash, bar, brokenbar ] };
+
+ include "level3(ralt_switch)"
+
+};
+
+
+partial default alphanumeric_keys
+ xkb_symbols "basic" {
+ include "sun_vndr/kr(type6)"
+};
